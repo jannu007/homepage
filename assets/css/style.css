@@ -140,7 +140,14 @@ button{ font-family:inherit; background:none; border:none; cursor:pointer; }
   clip-path:polygon(30% 0%,100% 25%,70% 100%,0% 65%);
 }
 @media (max-width:1100px){ .raku{ width:min(24vw,300px); } }
-@media (max-width:900px){ .raku{ display:none; } }
+@media (max-width:900px){
+  .raku{
+    position:static; display:block; width:min(52vw,240px); margin:2.6rem auto 0;
+    transform:none; order:2;
+  }
+  .hero-inner{ order:1; }
+  .hero{ padding-bottom:9rem; }
+}
 
 .nav{ display:flex; gap:2.8rem; }
 .nav a{
