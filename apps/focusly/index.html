@@ -4,71 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Focusly — 集中タイマー | NOVA STUDIO</title>
-<meta name="description" content="ポモドーロテクニックとアンビエントサウンドを組み合わせた集中タイマーアプリ">
+<meta name="description" content="ポモドーロテクニックとアンビエントサウンドを組み合わせた集中タイマーアプリ。完全無料・インストール不要。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✦</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Cormorant+Garamond:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#141414; --bg-soft:#1d1d1d; --ink:#f2efe8; --ink-soft:#9a978f; --line:#333333;
-  --accent:#ff4b2b; --accent-soft:#3a241f;
-  --serif:'Cormorant Garamond', serif;
-  --sans:'Zen Kaku Gothic New','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
-  --ease:cubic-bezier(.16,1,.3,1);
-}
-*,*::before,*::after{ box-sizing:border-box; }
-body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased; min-height:100vh; }
-a{ color:inherit; text-decoration:none; }
-button{ font-family:inherit; cursor:pointer; }
-
-.topbar{ display:flex; align-items:center; justify-content:space-between; padding:1.4rem 6vw; border-bottom:1px solid var(--line); }
-.back{ font-size:.78rem; color:var(--ink-soft); letter-spacing:.02em; }
-.back:hover{ color:var(--accent); }
-.applogo{ font-family:var(--serif); font-style:italic; font-weight:600; font-size:1.3rem; display:flex; align-items:center; gap:.5rem; }
-.applogo .dot{ width:10px; height:10px; border-radius:50%; background:var(--accent); }
-
-main{ max-width:520px; margin:0 auto; padding:3.5rem 6vw 5rem; display:flex; flex-direction:column; align-items:center; }
-
-.modes{ display:flex; gap:.5rem; background:var(--bg-soft); border-radius:100px; padding:.3rem; margin-bottom:2.6rem; }
-.mode-btn{
-  border:none; background:none; color:var(--ink-soft); font-size:.78rem; letter-spacing:.02em;
-  padding:.6rem 1.1rem; border-radius:100px; transition:background .3s, color .3s;
-}
-.mode-btn.active{ background:var(--accent); color:#fff; }
-
-.ring-wrap{ position:relative; width:min(280px,70vw); height:min(280px,70vw); margin-bottom:2.4rem; }
-.ring-wrap svg{ width:100%; height:100%; transform:rotate(-90deg); }
-.ring-bg{ fill:none; stroke:var(--line); stroke-width:6; }
-.ring-fg{ fill:none; stroke:var(--accent); stroke-width:6; stroke-linecap:round; transition:stroke-dashoffset 1s linear; }
-.ring-label{
-  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
-}
-.ring-time{ font-family:var(--serif); font-size:3.2rem; font-weight:600; font-variant-numeric:tabular-nums; }
-.ring-state{ font-size:.72rem; color:var(--ink-soft); letter-spacing:.1em; text-transform:uppercase; margin-top:.3rem; }
-
-.controls{ display:flex; gap:1rem; margin-bottom:2.4rem; }
-.ctrl-btn{
-  border:1px solid var(--line); background:var(--bg-soft); color:var(--ink); border-radius:100px;
-  padding:.9rem 2.2rem; font-size:.85rem; letter-spacing:.04em; font-weight:500; transition:background .25s, border-color .25s;
-}
-.ctrl-btn.primary{ background:var(--accent); border-color:var(--accent); color:#fff; }
-.ctrl-btn:hover{ border-color:var(--accent); }
-
-.extras{ display:flex; gap:1.2rem; align-items:center; }
-.ambient-toggle{
-  display:flex; align-items:center; gap:.55rem; border:1px solid var(--line); background:var(--bg-soft);
-  border-radius:100px; padding:.55rem 1.1rem; font-size:.76rem; color:var(--ink-soft); transition:border-color .25s, color .25s;
-}
-.ambient-toggle.on{ border-color:var(--accent); color:var(--ink); }
-.ambient-toggle .indicator{ width:7px; height:7px; border-radius:50%; background:var(--line); transition:background .25s; }
-.ambient-toggle.on .indicator{ background:var(--accent); }
-
-.stats{ margin-top:3rem; display:flex; gap:2.4rem; }
-.stat{ text-align:center; }
-.stat-num{ font-family:var(--serif); font-size:1.8rem; color:var(--accent); font-variant-numeric:tabular-nums; }
-.stat-label{ font-size:.68rem; color:var(--ink-soft); letter-spacing:.06em; }
-</style>
+<link rel="stylesheet" href="../shared/detail.css">
 </head>
 <body>
 
@@ -78,207 +19,58 @@ main{ max-width:520px; margin:0 auto; padding:3.5rem 6vw 5rem; display:flex; fle
 </header>
 
 <main>
-  <div class="modes" id="modes">
-    <button class="mode-btn active" data-mode="focus" data-min="25">集中 25分</button>
-    <button class="mode-btn" data-mode="short" data-min="5">小休憩 5分</button>
-    <button class="mode-btn" data-mode="long" data-min="15">大休憩 15分</button>
-  </div>
-
-  <div class="ring-wrap">
-    <svg viewBox="0 0 200 200">
-      <circle class="ring-bg" cx="100" cy="100" r="90"></circle>
-      <circle class="ring-fg" id="ringFg" cx="100" cy="100" r="90"></circle>
-    </svg>
-    <div class="ring-label">
-      <div class="ring-time" id="ringTime">25:00</div>
-      <div class="ring-state" id="ringState">Ready</div>
+  <section class="hero">
+    <div class="hero-text">
+      <span class="work-tag">Productivity</span>
+      <h1>Focusly</h1>
+      <p class="tagline">ポモドーロテクニックとアンビエントサウンドで、深い集中に入るためのタイマー。</p>
+      <p class="desc">
+        25分の集中と5分の休憩を繰り返すポモドーロ方式に、雨音のようなアンビエントノイズを組み合わせました。
+        円形タイマーが残り時間を静かに知らせ、セッション数はその日ごとに自動で記録されます。
+        インストール不要、このページからすぐに集中を始められます。
+      </p>
+      <div class="cta-row">
+        <a href="app/" class="btn btn-primary">無料でダウンロード</a>
+        <span class="price-note">¥0 ・ 会員登録不要 ・ ブラウザで即利用</span>
+      </div>
     </div>
-  </div>
-
-  <div class="controls">
-    <button class="ctrl-btn primary" id="startBtn">Start</button>
-    <button class="ctrl-btn" id="resetBtn">Reset</button>
-  </div>
-
-  <div class="extras">
-    <button class="ambient-toggle" id="ambientBtn"><span class="indicator"></span>アンビエントサウンド</button>
-  </div>
-
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-num" id="sessionCount">0</div>
-      <div class="stat-label">SESSIONS TODAY</div>
+    <div class="hero-visual">
+      <div class="mock-phone">
+        <div class="mock-screen dark">
+          <div class="mock-icon">✦</div>
+          <div class="mock-wave"></div>
+          <div class="mock-dots">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="stat">
-      <div class="stat-num" id="focusMinutes">0</div>
-      <div class="stat-label">FOCUS MINUTES</div>
+  </section>
+
+  <section class="features">
+    <div class="feature">
+      <span class="feature-num">01</span>
+      <h3>円形カウントダウン</h3>
+      <p>集中・小休憩・大休憩をワンタップで切り替え。残り時間がひと目でわかるリングUI。</p>
     </div>
-  </div>
+    <div class="feature">
+      <span class="feature-num">02</span>
+      <h3>アンビエントサウンド</h3>
+      <p>雨音のようなノイズをブラウザ内でリアルタイム生成。音源ファイル不要でオン/オフも自由。</p>
+    </div>
+    <div class="feature">
+      <span class="feature-num">03</span>
+      <h3>今日のセッション記録</h3>
+      <p>完了したポモドーロ数と集中時間をその日ごとに自動集計。翌日には自動でリセットされます。</p>
+    </div>
+  </section>
+
+  <section class="bottom-cta">
+    <h2>次の25分を、始めよう。</h2>
+    <a href="app/" class="btn btn-primary btn-lg">無料でダウンロード</a>
+    <a href="../../index.html#works" class="back-link">← 他のアプリを見る</a>
+  </section>
 </main>
 
-<script>
-(() => {
-  'use strict';
-  const STORE_KEY = 'focusly_state_v1';
-  const todayStr = () => new Date().toISOString().slice(0,10);
-
-  let state = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
-  if (!state || state.date !== todayStr()) {
-    state = { date: todayStr(), sessions: 0, minutes: 0 };
-  }
-  const saveState = () => localStorage.setItem(STORE_KEY, JSON.stringify(state));
-
-  const MODES = { focus: 25, short: 5, long: 15 };
-  let currentMode = 'focus';
-  let totalSeconds = MODES.focus * 60;
-  let remaining = totalSeconds;
-  let running = false;
-  let timerId = null;
-
-  const ringFg = document.getElementById('ringFg');
-  const CIRC = 2 * Math.PI * 90;
-  ringFg.style.strokeDasharray = CIRC;
-
-  const ringTime = document.getElementById('ringTime');
-  const ringState = document.getElementById('ringState');
-  const startBtn = document.getElementById('startBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const modesEl = document.getElementById('modes');
-
-  function updateRing() {
-    const pct = remaining / totalSeconds;
-    ringFg.style.strokeDashoffset = CIRC * (1 - pct);
-    const m = Math.floor(remaining / 60).toString().padStart(2,'0');
-    const s = Math.floor(remaining % 60).toString().padStart(2,'0');
-    ringTime.textContent = `${m}:${s}`;
-  }
-
-  function setMode(mode) {
-    currentMode = mode;
-    totalSeconds = MODES[mode] * 60;
-    remaining = totalSeconds;
-    running = false;
-    clearInterval(timerId);
-    startBtn.textContent = 'Start';
-    ringState.textContent = mode === 'focus' ? 'Ready' : 'Break';
-    [...modesEl.children].forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
-    updateRing();
-  }
-
-  function tick() {
-    remaining--;
-    updateRing();
-    if (remaining <= 0) {
-      clearInterval(timerId);
-      running = false;
-      startBtn.textContent = 'Start';
-      playChime();
-      if (currentMode === 'focus') {
-        state.sessions++;
-        state.minutes += MODES.focus;
-        saveState();
-        renderStats();
-        setMode(state.sessions % 4 === 0 ? 'long' : 'short');
-      } else {
-        setMode('focus');
-      }
-    }
-  }
-
-  startBtn.addEventListener('click', () => {
-    if (running) {
-      running = false;
-      clearInterval(timerId);
-      startBtn.textContent = 'Start';
-      ringState.textContent = 'Paused';
-    } else {
-      running = true;
-      startBtn.textContent = 'Pause';
-      ringState.textContent = currentMode === 'focus' ? 'Focusing' : 'Break';
-      timerId = setInterval(tick, 1000);
-    }
-  });
-
-  resetBtn.addEventListener('click', () => setMode(currentMode));
-
-  modesEl.addEventListener('click', (e) => {
-    const btn = e.target.closest('.mode-btn');
-    if (btn) setMode(btn.dataset.mode);
-  });
-
-  function renderStats() {
-    document.getElementById('sessionCount').textContent = state.sessions;
-    document.getElementById('focusMinutes').textContent = state.minutes;
-  }
-
-  /* ---------- audio: chime + ambient brown noise (synthesized, no files) ---------- */
-  let audioCtx = null;
-  const getCtx = () => {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    return audioCtx;
-  };
-
-  function playChime() {
-    const ctx = getCtx();
-    [523.25, 659.25, 783.99].forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-      const start = ctx.currentTime + i * 0.12;
-      gain.gain.setValueAtTime(0, start);
-      gain.gain.linearRampToValueAtTime(0.18, start + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.9);
-      osc.connect(gain).connect(ctx.destination);
-      osc.start(start);
-      osc.stop(start + 1);
-    });
-  }
-
-  let ambientNode = null;
-  let ambientGain = null;
-  const ambientBtn = document.getElementById('ambientBtn');
-
-  function startAmbient() {
-    const ctx = getCtx();
-    const bufferSize = 2 * ctx.sampleRate;
-    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    let lastOut = 0;
-    for (let i = 0; i < bufferSize; i++) {
-      const white = Math.random() * 2 - 1;
-      data[i] = (lastOut + 0.02 * white) / 1.02;
-      lastOut = data[i];
-      data[i] *= 3.5;
-    }
-    const source = ctx.createBufferSource();
-    source.buffer = buffer;
-    source.loop = true;
-    ambientGain = ctx.createGain();
-    ambientGain.gain.value = 0;
-    source.connect(ambientGain).connect(ctx.destination);
-    source.start();
-    ambientGain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 1.2);
-    ambientNode = source;
-  }
-
-  function stopAmbient() {
-    if (!ambientNode) return;
-    const ctx = getCtx();
-    ambientGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.8);
-    const node = ambientNode;
-    setTimeout(() => { try { node.stop(); } catch(e){} }, 900);
-    ambientNode = null;
-  }
-
-  ambientBtn.addEventListener('click', () => {
-    const on = ambientBtn.classList.toggle('on');
-    if (on) startAmbient(); else stopAmbient();
-  });
-
-  setMode('focus');
-  renderStats();
-})();
-</script>
 </body>
 </html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kakeibo — シンプル家計簿 | NOVA STUDIO</title>
+<meta name="description" content="日本の伝統的な家計簿の思想を現代的なUIで再構築したシンプル家計簿アプリ">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◈</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Cormorant+Garamond:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5f1; --ink:#141414; --ink-soft:#5c5850; --line:#dedad2;
+  --accent:#ff4b2b; --accent-soft:#ffe3db; --paper:#ffffff; --income:#1f8a5f; --income-soft:#dcf0e6;
+  --serif:'Cormorant Garamond', serif;
+  --sans:'Zen Kaku Gothic New','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
+}
+*,*::before,*::after{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased; }
+a{ color:inherit; text-decoration:none; }
+button{ font-family:inherit; cursor:pointer; }
+input,select{ font-family:inherit; }
+
+.topbar{ display:flex; align-items:center; justify-content:space-between; padding:1.4rem 6vw; border-bottom:1px solid var(--line); }
+.back{ font-size:.78rem; color:var(--ink-soft); }
+.back:hover{ color:var(--accent); }
+.applogo{ font-family:var(--serif); font-style:italic; font-weight:600; font-size:1.3rem; display:flex; align-items:center; gap:.5rem; }
+.applogo .dot{ width:10px; height:10px; border-radius:50%; background:var(--accent); }
+
+main{ max-width:680px; margin:0 auto; padding:2.4rem 6vw 5rem; }
+
+.month-nav{ display:flex; align-items:center; justify-content:center; gap:1.4rem; margin-bottom:1.8rem; }
+.month-nav button{ border:1px solid var(--line); background:var(--paper); border-radius:50%; width:36px; height:36px; font-size:.9rem; }
+.month-nav button:hover{ border-color:var(--accent); color:var(--accent); }
+.month-label{ font-family:var(--serif); font-size:1.5rem; font-weight:600; min-width:9em; text-align:center; }
+
+.summary{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:2.2rem; }
+.summary-card{ background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:1.1rem 1rem; text-align:center; }
+.summary-num{ font-family:var(--serif); font-size:1.5rem; font-weight:600; font-variant-numeric:tabular-nums; }
+.summary-num.income{ color:var(--income); }
+.summary-num.expense{ color:var(--accent); }
+.summary-label{ font-size:.68rem; color:var(--ink-soft); letter-spacing:.04em; margin-top:.2rem; }
+
+form.add-form{ background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:1.3rem; margin-bottom:2.2rem; }
+.type-toggle{ display:flex; gap:.5rem; margin-bottom:1rem; }
+.type-toggle button{
+  flex:1; border:1px solid var(--line); background:transparent; border-radius:10px; padding:.6rem; font-size:.82rem; font-weight:500;
+  color:var(--ink-soft); transition:background .2s, color .2s, border-color .2s;
+}
+.type-toggle button.active[data-type="expense"]{ background:var(--accent-soft); border-color:var(--accent); color:var(--accent); }
+.type-toggle button.active[data-type="income"]{ background:var(--income-soft); border-color:var(--income); color:var(--income); }
+
+.form-row{ display:flex; gap:.7rem; margin-bottom:.8rem; }
+.form-row input, .form-row select{
+  border:1px solid var(--line); background:var(--bg); border-radius:10px; padding:.7rem .9rem; font-size:.88rem; outline:none; flex:1;
+}
+.form-row input:focus, .form-row select:focus{ border-color:var(--accent); }
+
+.chips{ display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1rem; }
+.chip{
+  border:1px solid var(--line); background:var(--bg); border-radius:100px; padding:.4rem 1rem; font-size:.76rem;
+  color:var(--ink-soft); transition:background .2s, border-color .2s, color .2s;
+}
+.chip.active{ background:var(--ink); border-color:var(--ink); color:var(--bg); }
+
+.submit-btn{ width:100%; border:none; background:var(--ink); color:var(--bg); border-radius:10px; padding:.85rem; font-size:.85rem; font-weight:500; transition:background .2s; }
+.submit-btn:hover{ background:var(--accent); }
+
+.section-title{ font-size:.78rem; letter-spacing:.06em; color:var(--ink-soft); margin:0 0 .9rem; text-transform:uppercase; }
+
+.breakdown{ margin-bottom:2.2rem; display:flex; flex-direction:column; gap:.6rem; }
+.bd-row{ display:flex; align-items:center; gap:.8rem; font-size:.82rem; }
+.bd-label{ width:5em; flex-shrink:0; color:var(--ink-soft); }
+.bd-bar-track{ flex:1; height:8px; background:var(--line); border-radius:100px; overflow:hidden; }
+.bd-bar-fill{ height:100%; background:var(--accent); border-radius:100px; }
+.bd-amount{ width:6em; text-align:right; flex-shrink:0; font-variant-numeric:tabular-nums; }
+
+.tx-list{ display:flex; flex-direction:column; gap:.6rem; }
+.tx-item{
+  display:flex; align-items:center; gap:1rem; background:var(--paper); border:1px solid var(--line);
+  border-radius:14px; padding:.9rem 1.1rem;
+}
+.tx-cat{ font-size:.7rem; color:var(--ink-soft); border:1px solid var(--line); border-radius:100px; padding:.25em .8em; flex-shrink:0; }
+.tx-body{ flex:1; min-width:0; }
+.tx-note{ font-size:.86rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.tx-date{ font-size:.7rem; color:var(--ink-soft); }
+.tx-amount{ font-weight:700; font-variant-numeric:tabular-nums; flex-shrink:0; }
+.tx-amount.income{ color:var(--income); }
+.tx-amount.expense{ color:var(--accent); }
+.tx-del{ border:none; background:none; color:var(--ink-soft); opacity:.5; flex-shrink:0; }
+.tx-del:hover{ opacity:1; color:var(--accent); }
+
+.empty{ text-align:center; padding:3rem 1rem; color:var(--ink-soft); font-size:.85rem; border:1px dashed var(--line); border-radius:16px; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="back">← Kakeibo について</a>
+  <div class="applogo"><span class="dot"></span>Kakeibo</div>
+</header>
+
+<main>
+  <div class="month-nav">
+    <button id="prevMonth" aria-label="前の月">←</button>
+    <div class="month-label" id="monthLabel"></div>
+    <button id="nextMonth" aria-label="次の月">→</button>
+  </div>
+
+  <div class="summary">
+    <div class="summary-card">
+      <div class="summary-num income" id="sumIncome">¥0</div>
+      <div class="summary-label">収入</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-num expense" id="sumExpense">¥0</div>
+      <div class="summary-label">支出</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-num" id="sumBalance">¥0</div>
+      <div class="summary-label">収支</div>
+    </div>
+  </div>
+
+  <form class="add-form" id="addForm">
+    <div class="type-toggle" id="typeToggle">
+      <button type="button" class="active" data-type="expense">支出</button>
+      <button type="button" data-type="income">収入</button>
+    </div>
+    <div class="form-row">
+      <input type="number" id="amountInput" placeholder="金額" min="1" required>
+      <input type="date" id="dateInput" required>
+    </div>
+    <div class="chips" id="categoryChips"></div>
+    <div class="form-row">
+      <input type="text" id="noteInput" placeholder="メモ(任意)" maxlength="40">
+    </div>
+    <button type="submit" class="submit-btn">記録する</button>
+  </form>
+
+  <h2 class="section-title">カテゴリ別支出</h2>
+  <div class="breakdown" id="breakdown"></div>
+
+  <h2 class="section-title">履歴</h2>
+  <div class="tx-list" id="txList"></div>
+  <div class="empty" id="emptyState" style="display:none;">この月の記録はまだありません。</div>
+</main>
+
+<script>
+(() => {
+  'use strict';
+  const STORE_KEY = 'kakeibo_tx_v1';
+  const CATS = {
+    expense: ['食費','交通','日用品','娯楽','住居','その他'],
+    income: ['給与','副業','その他']
+  };
+
+  let tx = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
+  const save = () => localStorage.setItem(STORE_KEY, JSON.stringify(tx));
+
+  let viewDate = new Date();
+  viewDate.setDate(1);
+  let currentType = 'expense';
+  let currentCat = CATS.expense[0];
+
+  const dateInput = document.getElementById('dateInput');
+  dateInput.value = new Date().toISOString().slice(0,10);
+
+  function renderChips() {
+    const wrap = document.getElementById('categoryChips');
+    wrap.innerHTML = CATS[currentType].map(c =>
+      `<button type="button" class="chip ${c === currentCat ? 'active' : ''}" data-cat="${c}">${c}</button>`
+    ).join('');
+  }
+
+  document.getElementById('typeToggle').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-type]');
+    if (!btn) return;
+    currentType = btn.dataset.type;
+    currentCat = CATS[currentType][0];
+    [...document.getElementById('typeToggle').children].forEach(b => b.classList.toggle('active', b === btn));
+    renderChips();
+  });
+
+  document.getElementById('categoryChips').addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    currentCat = chip.dataset.cat;
+    renderChips();
+  });
+
+  document.getElementById('addForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const amount = parseFloat(document.getElementById('amountInput').value);
+    const date = dateInput.value;
+    const note = document.getElementById('noteInput').value.trim();
+    if (!amount || !date) return;
+    tx.push({ id: Date.now().toString(36), type: currentType, category: currentCat, amount, date, note });
+    save();
+    document.getElementById('amountInput').value = '';
+    document.getElementById('noteInput').value = '';
+    render();
+  });
+
+  document.getElementById('prevMonth').addEventListener('click', () => {
+    viewDate.setMonth(viewDate.getMonth() - 1);
+    render();
+  });
+  document.getElementById('nextMonth').addEventListener('click', () => {
+    viewDate.setMonth(viewDate.getMonth() + 1);
+    render();
+  });
+
+  const fmt = (n) => '¥' + Math.round(n).toLocaleString('ja-JP');
+
+  function render() {
+    const y = viewDate.getFullYear(), m = viewDate.getMonth();
+    document.getElementById('monthLabel').textContent = `${y}年${m+1}月`;
+
+    const monthTx = tx.filter(t => {
+      const d = new Date(t.date + 'T00:00:00');
+      return d.getFullYear() === y && d.getMonth() === m;
+    }).sort((a,b) => b.date.localeCompare(a.date));
+
+    const income = monthTx.filter(t => t.type === 'income').reduce((s,t) => s + t.amount, 0);
+    const expense = monthTx.filter(t => t.type === 'expense').reduce((s,t) => s + t.amount, 0);
+    document.getElementById('sumIncome').textContent = fmt(income);
+    document.getElementById('sumExpense').textContent = fmt(expense);
+    document.getElementById('sumBalance').textContent = fmt(income - expense);
+
+    const byCat = {};
+    monthTx.filter(t => t.type === 'expense').forEach(t => {
+      byCat[t.category] = (byCat[t.category] || 0) + t.amount;
+    });
+    const bdWrap = document.getElementById('breakdown');
+    const entries = Object.entries(byCat).sort((a,b) => b[1]-a[1]);
+    bdWrap.innerHTML = entries.length ? entries.map(([cat, amt]) => `
+      <div class="bd-row">
+        <div class="bd-label">${cat}</div>
+        <div class="bd-bar-track"><div class="bd-bar-fill" style="width:${expense ? (amt/expense*100) : 0}%"></div></div>
+        <div class="bd-amount">${fmt(amt)}</div>
+      </div>
+    `).join('') : `<p style="color:var(--ink-soft); font-size:.85rem;">この月の支出データはまだありません。</p>`;
+
+    const listWrap = document.getElementById('txList');
+    document.getElementById('emptyState').style.display = monthTx.length ? 'none' : 'block';
+    listWrap.innerHTML = monthTx.map(t => `
+      <div class="tx-item">
+        <span class="tx-cat">${t.category}</span>
+        <div class="tx-body">
+          <div class="tx-note">${t.note || t.category}</div>
+          <div class="tx-date">${t.date}</div>
+        </div>
+        <div class="tx-amount ${t.type}">${t.type === 'income' ? '+' : '-'}${fmt(t.amount)}</div>
+        <button class="tx-del" data-del="${t.id}" aria-label="削除">✕</button>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('txList').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-del]');
+    if (!btn) return;
+    tx = tx.filter(t => t.id !== btn.dataset.del);
+    save();
+    render();
+  });
+
+  renderChips();
+  render();
+})();
+</script>
+</body>
+</html>
