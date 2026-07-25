@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA STUDIO | アプリ開発スタジオ</title>
+<meta name="description" content="個人開発アプリの企画・開発・販売を行うクリエイティブスタジオ NOVA STUDIO のポートフォリオサイト">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◆</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ===== Loader ===== -->
+<div class="loader" id="loader">
+  <div class="loader-mark">NOVA</div>
+</div>
+
+<!-- ===== Header ===== -->
+<header class="header" id="header">
+  <div class="header-inner">
+    <a href="#top" class="logo">NOVA<span>STUDIO</span></a>
+    <nav class="nav" id="nav">
+      <a href="#works" data-label="01">Works</a>
+      <a href="#about" data-label="02">About</a>
+      <a href="#service" data-label="03">Service</a>
+      <a href="#news" data-label="04">News</a>
+      <a href="#contact" data-label="05">Contact</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="メニュー">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ===== Mobile Nav Overlay ===== -->
+<div class="mobile-nav" id="mobileNav">
+  <nav>
+    <a href="#works">Works<span>プロダクト</span></a>
+    <a href="#about">About<span>私たちについて</span></a>
+    <a href="#service">Service<span>サービス</span></a>
+    <a href="#news">News<span>お知らせ</span></a>
+    <a href="#contact">Contact<span>お問い合わせ</span></a>
+  </nav>
+</div>
+
+<main id="top">
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="grid-lines"></div>
+    </div>
+    <div class="hero-inner">
+      <p class="hero-eyebrow reveal">Independent App Studio</p>
+      <h1 class="hero-title">
+        <span class="reveal-line"><span>アプリで、</span></span>
+        <span class="reveal-line"><span>日常を少し</span></span>
+        <span class="reveal-line"><span class="accent">面白く。</span></span>
+      </h1>
+      <p class="hero-desc reveal">
+        NOVA STUDIO は、個人開発から生まれたアプリを企画・開発・販売する<br class="pc-only">
+        小さなクリエイティブスタジオです。
+      </p>
+      <div class="hero-cta reveal">
+        <a href="#works" class="btn btn-primary"><span>View Works</span></a>
+        <a href="#contact" class="btn btn-line"><span>Contact</span></a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>PLAN — DESIGN — DEVELOP — RELEASE — GROW — PLAN — DESIGN — DEVELOP — RELEASE — GROW —</span>
+        <span>PLAN — DESIGN — DEVELOP — RELEASE — GROW — PLAN — DESIGN — DEVELOP — RELEASE — GROW —</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Works ===== -->
+  <section class="works" id="works">
+    <div class="section-head">
+      <p class="section-num reveal">01</p>
+      <h2 class="section-title reveal">
+        <span class="jp">Works</span>
+        <span class="en">私たちが手がけたアプリケーション</span>
+      </h2>
+    </div>
+
+    <div class="work-list">
+
+      <article class="work-item reveal">
+        <a href="#" class="work-link">
+          <div class="work-visual">
+            <div class="work-mock mock-1">
+              <div class="mock-phone">
+                <div class="mock-screen">
+                  <div class="mock-icon">◐</div>
+                  <div class="mock-bar"></div>
+                  <div class="mock-bar short"></div>
+                  <div class="mock-card"></div>
+                  <div class="mock-card"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-tag">Health & Fitness</span>
+            <h3 class="work-name">Rhythm — 習慣化トラッカー</h3>
+            <p class="work-desc">小さな習慣を積み重ねるためのミニマルなトラッキングアプリ。美しいグラフでモチベーションを可視化。</p>
+            <div class="work-meta">
+              <span>iOS / Android</span>
+              <span>¥480</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="work-item reveal">
+        <a href="#" class="work-link">
+          <div class="work-visual">
+            <div class="work-mock mock-2">
+              <div class="mock-phone">
+                <div class="mock-screen dark">
+                  <div class="mock-icon">✦</div>
+                  <div class="mock-wave"></div>
+                  <div class="mock-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-tag">Productivity</span>
+            <h3 class="work-name">Focusly — 集中タイマー</h3>
+            <p class="work-desc">ポモドーロテクニックとアンビエントサウンドを組み合わせた、深い集中状態に入るためのタイマーアプリ。</p>
+            <div class="work-meta">
+              <span>iOS / macOS</span>
+              <span>無料 + App内課金</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="work-item reveal">
+        <a href="#" class="work-link">
+          <div class="work-visual">
+            <div class="work-mock mock-3">
+              <div class="mock-phone">
+                <div class="mock-screen">
+                  <div class="mock-icon">◈</div>
+                  <div class="mock-grid">
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-tag">Finance</span>
+            <h3 class="work-name">Kakeibo — シンプル家計簿</h3>
+            <p class="work-desc">レシートを撮るだけで自動仕分け。日本の伝統的な家計簿の思想を、現代的なUIで再構築しました。</p>
+            <div class="work-meta">
+              <span>iOS / Android</span>
+              <span>¥980</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="work-item reveal">
+        <a href="#" class="work-link">
+          <div class="work-visual">
+            <div class="work-mock mock-4">
+              <div class="mock-phone">
+                <div class="mock-screen dark">
+                  <div class="mock-icon">☾</div>
+                  <div class="mock-ring"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="work-info">
+            <span class="work-tag">Lifestyle</span>
+            <h3 class="work-name">Nocta — 睡眠サウンド</h3>
+            <p class="work-desc">上質な眠りへ誘う、高品質なアンビエントサウンドライブラリ。おやすみ前のルーティンに寄り添うアプリ。</p>
+            <div class="work-meta">
+              <span>iOS / Android</span>
+              <span>¥380/月</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== About ===== -->
+  <section class="about" id="about">
+    <div class="about-inner">
+      <div class="section-head">
+        <p class="section-num reveal">02</p>
+        <h2 class="section-title reveal">
+          <span class="jp">About</span>
+          <span class="en">小さなチームで、丁寧なものづくりを。</span>
+        </h2>
+      </div>
+      <div class="about-body">
+        <p class="about-lead reveal">
+          "使う人の毎日に、少しだけ良い変化を。"<br>
+          それが NOVA STUDIO のものづくりの出発点です。
+        </p>
+        <p class="about-text reveal">
+          私たちは大きな組織を持たない、少人数の開発スタジオです。企画・デザイン・開発・グロースまでを一気通貫で担い、
+          トレンドに流されず、本当に必要とされる機能だけを削ぎ落として届けることを大切にしています。
+          リリースしたアプリはこれまでに数十万ダウンロードを記録し、多くのユーザーの日常に溶け込んでいます。
+        </p>
+        <div class="stats reveal">
+          <div class="stat">
+            <span class="stat-num" data-count="18">0</span>
+            <span class="stat-label">Released Apps</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num" data-count="420">0</span>
+            <span class="stat-label">K+ Downloads</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num" data-count="4.8">0</span>
+            <span class="stat-label">Average Rating</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num" data-count="7">0</span>
+            <span class="stat-label">Years of Craft</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Service ===== -->
+  <section class="service" id="service">
+    <div class="section-head">
+      <p class="section-num reveal">03</p>
+      <h2 class="section-title reveal">
+        <span class="jp">Service</span>
+        <span class="en">私たちにできること</span>
+      </h2>
+    </div>
+    <div class="service-list">
+      <div class="service-item reveal">
+        <span class="service-index">01</span>
+        <h3>Planning</h3>
+        <p>市場調査からコンセプト設計まで。ユーザーの課題の本質を捉え、勝てるプロダクトの骨格をつくります。</p>
+      </div>
+      <div class="service-item reveal">
+        <span class="service-index">02</span>
+        <h3>UI / UX Design</h3>
+        <p>使うたびに気持ちいいと感じるインターフェースを追求。細部の余白ひとつまでこだわり抜きます。</p>
+      </div>
+      <div class="service-item reveal">
+        <span class="service-index">03</span>
+        <h3>Development</h3>
+        <p>iOS / Android / Web、あらゆるプラットフォームに対応。堅牢でスケーラブルな実装を行います。</p>
+      </div>
+      <div class="service-item reveal">
+        <span class="service-index">04</span>
+        <h3>Growth & Sales</h3>
+        <p>ストア最適化からマーケティングまで。リリース後も伴走し、プロダクトを育て続けます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== News ===== -->
+  <section class="news" id="news">
+    <div class="section-head">
+      <p class="section-num reveal">04</p>
+      <h2 class="section-title reveal">
+        <span class="jp">News</span>
+        <span class="en">お知らせ</span>
+      </h2>
+    </div>
+    <ul class="news-list">
+      <li class="news-item reveal">
+        <span class="news-date">2026.07.20</span>
+        <span class="news-cat">Release</span>
+        <span class="news-title">新作アプリ「Nocta」を App Store / Google Play にて公開しました。</span>
+      </li>
+      <li class="news-item reveal">
+        <span class="news-date">2026.05.02</span>
+        <span class="news-cat">Update</span>
+        <span class="news-title">「Rhythm」がApp Store 本日のアプリに掲載されました。</span>
+      </li>
+      <li class="news-item reveal">
+        <span class="news-date">2026.02.14</span>
+        <span class="news-cat">Award</span>
+        <span class="news-title">「Kakeibo」が Good App Design Award 2026 を受賞しました。</span>
+      </li>
+      <li class="news-item reveal">
+        <span class="news-date">2025.11.30</span>
+        <span class="news-cat">Milestone</span>
+        <span class="news-title">累計ダウンロード数が40万を突破しました。</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ===== CTA / Contact ===== -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <p class="section-num reveal">05</p>
+      <h2 class="contact-title reveal">Let's create<br>something <span class="accent">wonderful.</span></h2>
+      <p class="contact-desc reveal">アプリ開発のご相談、コラボレーション、その他お問い合わせはこちらから。</p>
+      <a href="mailto:hello@novastudio.app" class="contact-mail reveal">hello@novastudio.app</a>
+      <div class="contact-cta reveal">
+        <a href="mailto:hello@novastudio.app" class="btn btn-primary btn-lg"><span>Send a Message</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <a href="#top" class="footer-logo">NOVA STUDIO</a>
+    <div class="footer-links">
+      <a href="#works">Works</a>
+      <a href="#about">About</a>
+      <a href="#service">Service</a>
+      <a href="#news">News</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-sns">
+      <a href="#" aria-label="X">X</a>
+      <a href="#" aria-label="Instagram">Instagram</a>
+      <a href="#" aria-label="note">note</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 NOVA STUDIO. All rights reserved.</p>
+    <button class="to-top" id="toTop" aria-label="トップへ戻る">↑</button>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
