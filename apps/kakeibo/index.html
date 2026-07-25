@@ -4,8 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kakeibo — シンプル家計簿 | NOVA STUDIO</title>
-<meta name="description" content="日本の伝統的な家計簿の思想を現代的なUIで再構築したシンプル家計簿アプリ。完全無料・インストール不要。">
+<meta name="description" content="日本の伝統的な家計簿の思想を現代的なUIで再構築したシンプル家計簿アプリ。完全無料でホーム画面に追加できます。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◈</text></svg>">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#141414">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Cormorant+Garamond:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
@@ -26,11 +29,13 @@
       <p class="tagline">日本の伝統的な家計簿の思想を、現代的なUIで再構築したシンプル家計簿。</p>
       <p class="desc">
         収入・支出を金額とカテゴリで記録するだけ。月ごとの収支とカテゴリ別の内訳が自動で集計されます。
-        難しい設定は一切なく、電卓感覚でその場で記録できます。アプリのダウンロードやアカウント登録は不要です。
+        難しい設定は一切なく、電卓感覚でその場で記録できます。アカウント登録は不要、インストールすればホーム画面から
+        いつでも開けます。
       </p>
       <div class="cta-row">
-        <a href="app/" class="btn btn-primary">無料でダウンロード</a>
-        <span class="price-note">¥0 ・ 会員登録不要 ・ ブラウザで即利用</span>
+        <button type="button" class="btn btn-primary install-btn">インストール</button>
+        <span class="price-note">¥0 ・ 会員登録不要 ・ ホーム画面に追加できます</span>
+        <a href="app/" class="open-link">ブラウザで直接開く →</a>
       </div>
     </div>
     <div class="hero-visual">
@@ -65,10 +70,11 @@
 
   <section class="bottom-cta">
     <h2>今日の1件から、記録を始めよう。</h2>
-    <a href="app/" class="btn btn-primary btn-lg">無料でダウンロード</a>
+    <button type="button" class="btn btn-primary btn-lg install-btn">インストール</button>
     <a href="../../index.html#works" class="back-link">← 他のアプリを見る</a>
   </section>
 </main>
 
+<script src="../shared/install.js"></script>
 </body>
 </html>
