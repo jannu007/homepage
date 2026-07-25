@@ -198,6 +198,30 @@ section{ position:relative; padding:9rem 6vw; max-width:1400px; margin:0 auto; }
 .btn-line:hover::before{ transform:translateY(0); }
 .btn-line:hover span{ color:var(--bg); }
 .btn-lg{ padding:1.3rem 3rem; font-size:.9rem; }
+.btn:disabled{ opacity:.55; cursor:default; }
+.btn:disabled:hover::before{ transform:translateY(101%); }
+.btn:disabled:hover span{ color:inherit; }
+
+/* ---------- install sheet ---------- */
+#installSheet{ position:fixed; inset:0; z-index:1000; display:flex; align-items:flex-end; justify-content:center; }
+.ios-sheet-backdrop{ position:absolute; inset:0; background:rgba(20,20,20,.5); }
+.ios-sheet{
+  position:relative; width:100%; max-width:420px; background:var(--paper); border-radius:24px 24px 0 0;
+  padding:2rem 1.8rem 2.2rem; box-shadow:0 -10px 40px rgba(0,0,0,.2); animation:sheetUp .35s var(--ease);
+}
+@keyframes sheetUp{ from{ transform:translateY(100%); } to{ transform:translateY(0); } }
+.ios-sheet-title{ font-family:var(--serif); font-weight:600; font-size:1.3rem; margin:0 0 1.2rem; }
+.ios-sheet ol{ margin:0 0 1.6rem; padding-left:1.2rem; display:flex; flex-direction:column; gap:.7rem; font-size:.88rem; color:var(--ink-soft); }
+.ios-sheet ol strong{ color:var(--ink); }
+.ios-sheet-close{
+  width:100%; border:1px solid var(--line); background:transparent; border-radius:100px; padding:.85rem;
+  font-size:.85rem; color:var(--ink);
+}
+.ios-sheet-close:hover{ border-color:var(--accent); color:var(--accent); }
+@media (min-width:480px){
+  #installSheet{ align-items:center; }
+  .ios-sheet{ border-radius:20px; }
+}
 
 .hero-scroll{
   position:absolute; bottom:5.5rem; left:6vw; display:flex; align-items:center; gap:.8rem; z-index:2;
