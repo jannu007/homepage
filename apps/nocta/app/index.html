@@ -20,11 +20,16 @@
 body{
   margin:0; background:var(--bg); color:var(--ink);
   font-family:var(--sans); line-height:1.8; -webkit-font-smoothing:antialiased; min-height:100vh;
+  position:relative;
+}
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.25; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 a{ color:inherit; text-decoration:none; }
 button{ font-family:inherit; cursor:pointer; }
 
-.topbar{ display:flex; align-items:center; justify-content:space-between; padding:1.6rem 8vw; border-bottom:1px solid var(--line); }
+.topbar{ position:relative; z-index:1; display:flex; align-items:center; justify-content:space-between; padding:1.6rem 8vw; border-bottom:1px solid var(--line); }
 .back{ font-size:.78rem; color:var(--ink-soft); }
 .back:hover{ color:var(--ink); }
 .applogo{ font-family:var(--serif); font-weight:400; font-size:1.1rem; display:flex; align-items:center; gap:.7rem; letter-spacing:.05em; }
@@ -35,7 +40,7 @@ button{ font-family:inherit; cursor:pointer; }
   font-family:var(--serif); font-weight:500; font-size:.82rem; line-height:1; transform:rotate(-3deg); opacity:.94;
 }
 
-main{ max-width:620px; margin:0 auto; padding:4rem 8vw 5rem; }
+main{ position:relative; z-index:1; max-width:620px; margin:0 auto; padding:4rem 8vw 5rem; }
 .hero{ margin-bottom:2.8rem; }
 .hero h1{ font-family:var(--serif); font-weight:400; font-size:clamp(1.7rem,5vw,2.2rem); margin:0 0 .8rem; letter-spacing:.02em; }
 .hero p{ color:var(--ink-soft); margin:0; font-size:.88rem; line-height:1.9; }

@@ -15,6 +15,7 @@
   --serif:'Shippori Mincho', serif;
   --sans:'Zen Kaku Gothic New','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
   --ease:cubic-bezier(.16,1,.3,1);
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 *,*::before,*::after{ box-sizing:border-box; }
@@ -95,25 +96,50 @@ button{ font-family:inherit; background:none; border:none; cursor:pointer; }
 }
 .hanko-lg{ width:1.5rem; height:1.5rem; font-size:.82rem; }
 
-/* ---------- raku: a single glazed-vessel accent, quietly placed ---------- */
+/* ---------- raku: a glazed-vessel accent — black glaze, torn hi-iro fire, exposed clay ---------- */
 .raku{
-  position:absolute; right:5vw; top:50%; transform:translateY(-46%);
-  width:min(27vw,340px); aspect-ratio:.8/1; z-index:1; pointer-events:none;
+  position:absolute; right:3vw; top:50%; transform:translateY(-46%);
+  width:min(32vw,400px); aspect-ratio:.78/1; z-index:1; pointer-events:none;
 }
 .raku-vessel{
   position:relative; width:100%; height:100%; overflow:hidden; background:var(--ink);
-  clip-path:polygon(9% 13%,20% 5%,30% 12%,41% 4%,53% 11%,65% 3%,78% 10%,92% 15%,96% 41%,94% 63%,89% 82%,77% 94%,55% 98%,33% 96%,17% 87%,6% 64%,5% 39%);
-  box-shadow:0 45px 70px -32px rgba(15,12,8,.45);
+  clip-path:polygon(7% 16%,17% 4%,26% 14%,36% 2%,47% 12%,58% 1%,70% 11%,82% 3%,93% 17%,97% 35%,95% 58%,98% 74%,88% 88%,72% 96%,60% 91%,48% 99%,34% 93%,22% 97%,10% 85%,3% 68%,6% 46%,2% 30%);
+  box-shadow:0 50px 80px -30px rgba(10,8,5,.5);
 }
+.raku-vessel::after{
+  content:''; position:absolute; inset:0; background-image:var(--grain);
+  mix-blend-mode:overlay; opacity:.35;
+}
+.raku-facet{ position:absolute; inset:0; background:linear-gradient(100deg,transparent 38%,rgba(255,255,255,.05) 40%,transparent 42%,transparent 63%,rgba(0,0,0,.35) 65%,transparent 68%); }
 .raku-flame{
-  position:absolute; width:72%; height:88%; right:-10%; top:-6%;
-  background:linear-gradient(155deg, var(--flame) 0%, var(--flame) 22%, var(--flame-deep) 62%, transparent 76%);
-  transform:rotate(16deg);
+  position:absolute; background:linear-gradient(150deg, var(--flame) 0%, var(--flame) 30%, var(--flame-deep) 75%, #4a1206 100%);
+}
+.raku-flame.f1{
+  width:78%; height:96%; right:-14%; top:-8%;
+  clip-path:polygon(38% 0%,58% 4%,52% 14%,64% 22%,55% 34%,68% 44%,58% 58%,70% 68%,60% 80%,72% 92%,48% 100%,30% 86%,40% 74%,26% 64%,38% 52%,24% 40%,36% 28%,22% 18%,34% 8%);
+}
+.raku-flame.f2{
+  width:30%; height:38%; left:6%; bottom:-4%; opacity:.9;
+  clip-path:polygon(20% 0%,45% 10%,38% 30%,55% 45%,40% 65%,50% 85%,25% 100%,5% 80%,15% 55%,2% 35%,12% 15%);
 }
 .raku-reveal{ position:absolute; background:var(--bg); }
-.raku-reveal.r1{ width:15%; height:24%; left:24%; top:5%; border-radius:52% 40% 60% 32% / 60% 50% 40% 55%; transform:rotate(-20deg); }
-.raku-reveal.r2{ width:9%; height:12%; left:41%; top:1%; border-radius:40% 60% 50% 40% / 55% 45% 60% 40%; transform:rotate(10deg); }
-.raku-reveal.r3{ width:7%; height:17%; right:32%; bottom:10%; border-radius:60% 30% 50% 40% / 40% 60% 30% 55%; transform:rotate(-12deg); opacity:.92; }
+.raku-reveal.r1{
+  width:19%; height:30%; left:20%; top:3%;
+  clip-path:polygon(30% 0%,70% 8%,100% 30%,80% 55%,90% 80%,55% 100%,20% 85%,35% 60%,10% 40%,25% 15%);
+}
+.raku-reveal.r2{
+  width:11%; height:15%; left:44%; top:0%;
+  clip-path:polygon(20% 0%,80% 10%,100% 45%,70% 100%,30% 90%,0% 50%);
+}
+.raku-reveal.r3{
+  width:9%; height:20%; right:28%; bottom:6%; opacity:.94;
+  clip-path:polygon(40% 0%,100% 20%,85% 55%,100% 85%,55% 100%,0% 70%,15% 35%);
+}
+.raku-reveal.r4{
+  width:6%; height:9%; left:8%; top:38%; opacity:.88;
+  clip-path:polygon(30% 0%,100% 25%,70% 100%,0% 65%);
+}
+@media (max-width:1100px){ .raku{ width:min(24vw,300px); } }
 @media (max-width:900px){ .raku{ display:none; } }
 
 .nav{ display:flex; gap:2.8rem; }
@@ -284,9 +310,14 @@ section{ position:relative; padding:10rem 8vw; max-width:1320px; margin:0 auto; 
 }
 .mock-screen.dark{ background:#2b2721; }
 .mock-icon{
-  width:34px; height:34px; border-radius:2px; background:var(--accent); color:var(--paper);
+  width:34px; height:34px; position:relative; overflow:hidden; background:var(--ink); color:var(--paper);
   display:flex; align-items:center; justify-content:center; font-size:1rem; margin-bottom:.4rem;
 }
+.mock-icon::before{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,transparent 45%,var(--flame) 48%,var(--flame-deep) 75%,transparent 90%);
+}
+.mock-icon span{ position:relative; z-index:1; }
 .mock-bar{ height:6px; background:var(--line); width:80%; }
 .mock-bar.short{ width:45%; }
 .mock-screen.dark .mock-bar{ background:#463f36; }
@@ -316,7 +347,11 @@ section{ position:relative; padding:10rem 8vw; max-width:1320px; margin:0 auto; 
 .work-meta span:last-child{ color:var(--accent); }
 
 /* ---------- about ---------- */
-.about{ background:var(--ink); color:var(--bg); margin-top:1px; }
+.about{ background:var(--ink); color:var(--bg); margin-top:1px; position:relative; overflow:hidden; }
+.about::before{
+  content:''; position:absolute; inset:0; background-image:var(--grain);
+  mix-blend-mode:overlay; opacity:.22; pointer-events:none;
+}
 .about .section-num{ color:var(--accent); opacity:.9; }
 .about .section-title .en{ color:#8a8171; }
 .about-body{ max-width:860px; }
