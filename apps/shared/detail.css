@@ -3,7 +3,7 @@
    ============================================================ */
 
 :root{
-  --bg:#eae3d3; --ink:#3c3630; --ink-soft:#8a8171; --line:#d6cdb8;
+  --bg:#eae3d3; --ink:#18140f; --ink-soft:#8a8171; --line:#d6cdb8;
   --accent:#a25c3f; --accent-soft:#e3d5c6; --paper:#f3ede0;
   --serif:'Shippori Mincho', serif;
   --sans:'Zen Kaku Gothic New','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
@@ -23,10 +23,11 @@ button{ font-family:inherit; cursor:pointer; }
 /* ---------- hanko (seal stamp) mark ---------- */
 .hanko{
   display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
-  width:1.5rem; height:1.5rem; border-radius:2px;
+  width:1.5rem; height:1.5rem;
+  border-radius:42% 58% 61% 39% / 55% 42% 58% 45%;
   background:var(--accent); color:var(--paper);
   font-family:var(--serif); font-weight:500; font-size:.82rem; line-height:1;
-  transform:rotate(-2deg); opacity:.92;
+  transform:rotate(-3deg); opacity:.94;
 }
 
 main{ max-width:1080px; margin:0 auto; padding:0 8vw; }
