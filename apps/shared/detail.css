@@ -3,16 +3,31 @@
    ============================================================ */
 
 :root{
-  --bg:#120d08; --paper:#1e1810; --kuro:#090603; --clay:#cdbb95;
-  --ink:#ece4d3; --ink-soft:#9c9384; --line:#332c1f;
+  --bg:#2b2620; --paper:#372f24; --kuro:#0a0603; --clay:#cdbb95;
+  --ink:#ece4d3; --ink-soft:#a89c88; --line:#4a4030;
   --accent:#d1834f; --accent-soft:#2a1811;
   --flame:#c2401f; --flame-deep:#7a2410;
   --serif:'Shippori Mincho', serif;
   --sans:'Zen Kaku Gothic New','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
   --ease:cubic-bezier(.16,1,.3,1);
+  --stone:
+    radial-gradient(ellipse 55% 40% at 14% 22%, rgba(158,113,62,.24), transparent 62%),
+    radial-gradient(ellipse 48% 55% at 84% 18%, rgba(206,192,162,.09), transparent 58%),
+    radial-gradient(ellipse 60% 48% at 72% 68%, rgba(60,48,34,.4), transparent 62%),
+    radial-gradient(ellipse 52% 62% at 22% 88%, rgba(12,9,6,.4), transparent 58%),
+    radial-gradient(ellipse 42% 32% at 52% 48%, rgba(130,100,62,.14), transparent 65%),
+    radial-gradient(ellipse 38% 45% at 92% 82%, rgba(90,72,50,.3), transparent 60%);
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 *,*::before,*::after{ box-sizing:border-box; }
-body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.9; -webkit-font-smoothing:antialiased; }
+body{
+  margin:0; background-color:var(--bg); background-image:var(--stone); background-attachment:fixed;
+  color:var(--ink); font-family:var(--sans); line-height:1.9; -webkit-font-smoothing:antialiased; position:relative;
+}
+body::after{
+  content:''; position:fixed; inset:0; z-index:9997; pointer-events:none;
+  background-image:var(--grain); opacity:.1; mix-blend-mode:overlay;
+}
 a{ color:inherit; text-decoration:none; }
 button{ font-family:inherit; cursor:pointer; }
 
