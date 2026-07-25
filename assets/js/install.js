@@ -2,11 +2,9 @@
   'use strict';
 
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then((reg) => {
-        reg.update().catch(() => {});
-      }).catch(() => {});
-    });
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then((reg) => {
+      reg.update().catch(() => {});
+    }).catch(() => {});
   }
 
   const buttons = () => document.querySelectorAll('.install-btn');
@@ -111,7 +109,7 @@
       const originalLabel = span ? span.textContent : btn.textContent;
       btn.disabled = true;
       setLabel(btn, '準備中…');
-      await waitForPrompt(4000);
+      await waitForPrompt(8000);
       btn.disabled = false;
       setLabel(btn, originalLabel);
     }

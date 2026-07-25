@@ -2,11 +2,12 @@
   'use strict';
 
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then((reg) => {
-        reg.update().catch(() => {});
-      }).catch(() => {});
-    });
+    // Register as early as possible (not gated behind window 'load') since
+    // Chrome only evaluates installability once a service worker with a
+    // fetch handler is registered — waiting delays beforeinstallprompt.
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then((reg) => {
+      reg.update().catch(() => {});
+    }).catch(() => {});
   }
 
   const buttons = () => document.querySelectorAll('.install-btn');
@@ -115,7 +116,7 @@
       const originalLabel = btn.textContent;
       btn.disabled = true;
       setLabel(btn, '準備中…');
-      await waitForPrompt(4000);
+      await waitForPrompt(8000);
       btn.disabled = false;
       setLabel(btn, originalLabel);
     }
