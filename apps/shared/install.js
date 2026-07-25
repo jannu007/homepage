@@ -32,7 +32,8 @@
   }
 
   function setLabel(btn, text) {
-    btn.textContent = text;
+    const span = btn.querySelector('.btn-label');
+    if (span) span.textContent = text; else btn.textContent = text;
   }
 
   function waitForPrompt(timeoutMs) {
