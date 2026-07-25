@@ -1,4 +1,4 @@
-# NOVA STUDIO — App Sales Homepage
+# YOUKOKU STUDIO — App Sales Homepage
 
 作成したアプリを販売・紹介するための、完全無料で運用できるおしゃれなホームページです。
 [tagboat.com](https://www.tagboat.com/) を参考に、大胆なタイポグラフィとスクロール演出を取り入れたデザインにしています。
@@ -41,7 +41,7 @@ python3 -m http.server 8000
 - **サイト名・キャッチコピー**: `index.html` 内の `<h1 class="hero-title">` 付近
 - **掲載アプリ**: `index.html` の `<section class="works">` 内、`.work-item` を複製して追加・編集
 - **配色**: `assets/css/style.css` 冒頭の `:root` 変数（`--accent` などを変更するだけで全体の印象が変わります）
-- **問い合わせ先**: `index.html` 内の `mailto:hello@novastudio.app` を実際のメールアドレスに変更
+- **問い合わせ先**: `index.html` 内の `mailto:hello@youkokustudio.app` を実際のメールアドレスに変更
 - **お知らせ**: `<section class="news">` 内の `<li class="news-item">` を編集
 
 ## ライセンス

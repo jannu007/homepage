@@ -1,4 +1,4 @@
-const CACHE = 'nova-studio-v3';
+const CACHE = 'youkoku-studio-v1';
 const ASSETS = ['./', './index.html', './assets/css/style.css', './assets/js/main.js', './manifest.json'];
 
 self.addEventListener('install', (e) => {
