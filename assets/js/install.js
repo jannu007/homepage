@@ -13,10 +13,23 @@
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
   let deferredPrompt = null;
+  let promptWaiters = [];
 
   function setLabel(btn, text) {
     const span = btn.querySelector('span');
     if (span) span.textContent = text; else btn.textContent = text;
+  }
+
+  function waitForPrompt(timeoutMs) {
+    if (deferredPrompt) return Promise.resolve();
+    return new Promise((resolve) => {
+      const timer = setTimeout(() => {
+        promptWaiters = promptWaiters.filter((w) => w !== onReady);
+        resolve();
+      }, timeoutMs);
+      const onReady = () => { clearTimeout(timer); resolve(); };
+      promptWaiters.push(onReady);
+    });
   }
 
   function setButtonsState(state) {
@@ -75,6 +88,8 @@
     e.preventDefault();
     deferredPrompt = e;
     setButtonsState('ready');
+    promptWaiters.forEach((w) => w());
+    promptWaiters = [];
   });
 
   window.addEventListener('appinstalled', () => {
@@ -88,6 +103,16 @@
     e.preventDefault();
 
     if (isStandalone()) return;
+
+    if (!deferredPrompt && !isIOS) {
+      const span = btn.querySelector('span');
+      const originalLabel = span ? span.textContent : btn.textContent;
+      btn.disabled = true;
+      setLabel(btn, '準備中…');
+      await waitForPrompt(4000);
+      btn.disabled = false;
+      setLabel(btn, originalLabel);
+    }
 
     if (deferredPrompt) {
       deferredPrompt.prompt();

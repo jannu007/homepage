@@ -13,17 +13,34 @@
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
   let deferredPrompt = null;
+  let promptWaiters = [];
 
   function setButtonsState(state) {
     buttons().forEach((btn) => {
       btn.dataset.state = state;
       if (state === 'installed') {
-        btn.textContent = 'インストール済み ✓';
+        setLabel(btn, 'インストール済み ✓');
         btn.disabled = true;
       } else {
-        btn.textContent = 'インストール';
+        setLabel(btn, 'インストール');
         btn.disabled = false;
       }
+    });
+  }
+
+  function setLabel(btn, text) {
+    btn.textContent = text;
+  }
+
+  function waitForPrompt(timeoutMs) {
+    if (deferredPrompt) return Promise.resolve();
+    return new Promise((resolve) => {
+      const timer = setTimeout(() => {
+        promptWaiters = promptWaiters.filter((w) => w !== onReady);
+        resolve();
+      }, timeoutMs);
+      const onReady = () => { clearTimeout(timer); resolve(); };
+      promptWaiters.push(onReady);
     });
   }
 
@@ -70,6 +87,8 @@
     e.preventDefault();
     deferredPrompt = e;
     setButtonsState('ready');
+    promptWaiters.forEach((w) => w());
+    promptWaiters = [];
   });
 
   window.addEventListener('appinstalled', () => {
@@ -86,6 +105,19 @@
       window.location.href = 'app/';
       return;
     }
+
+    if (!deferredPrompt && !isIOS) {
+      // beforeinstallprompt may not have fired yet — give Chrome a brief
+      // window to deliver it before falling back to manual instructions,
+      // so a real user click reliably gets the native install dialog.
+      const originalLabel = btn.textContent;
+      btn.disabled = true;
+      setLabel(btn, '準備中…');
+      await waitForPrompt(4000);
+      btn.disabled = false;
+      setLabel(btn, originalLabel);
+    }
+
     if (deferredPrompt) {
       deferredPrompt.prompt();
       const choice = await deferredPrompt.userChoice;
@@ -96,9 +128,6 @@
     if (isIOS) {
       showIOSSheet();
     } else {
-      // beforeinstallprompt hasn't fired yet (timing) or this browser lacks
-      // the JS install API — guide the user to the browser's own menu instead
-      // of silently leaving the detail page.
       showGenericSheet();
     }
   });
