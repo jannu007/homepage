@@ -1,4 +1,4 @@
-const CACHE = 'youkoku-studio-v4';
+const CACHE = 'youkoku-studio-v5';
 const ASSETS = ['./', './index.html', './assets/css/style.css', './assets/js/main.js', './manifest.json'];
 
 self.addEventListener('install', (e) => {

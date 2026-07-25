@@ -1,4 +1,4 @@
-const CACHE = 'rhythm-v4';
+const CACHE = 'rhythm-v5';
 const ASSETS = ['./', './app/', './manifest.json'];
 
 self.addEventListener('install', (e) => {
