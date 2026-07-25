@@ -213,6 +213,7 @@ section{ position:relative; padding:9rem 6vw; max-width:1400px; margin:0 auto; }
 .ios-sheet-title{ font-family:var(--serif); font-weight:600; font-size:1.3rem; margin:0 0 1.2rem; }
 .ios-sheet ol{ margin:0 0 1.6rem; padding-left:1.2rem; display:flex; flex-direction:column; gap:.7rem; font-size:.88rem; color:var(--ink-soft); }
 .ios-sheet ol strong{ color:var(--ink); }
+.ios-sheet-note{ font-size:.78rem; color:var(--ink-soft); margin:0 0 1.6rem; }
 .ios-sheet-close{
   width:100%; border:1px solid var(--line); background:transparent; border-radius:100px; padding:.85rem;
   font-size:.85rem; color:var(--ink);

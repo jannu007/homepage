@@ -27,7 +27,7 @@
     });
   }
 
-  function showIOSSheet() {
+  function showSheet(bodyHtml) {
     if (document.getElementById('iosInstallSheet')) return;
     const overlay = document.createElement('div');
     overlay.id = 'iosInstallSheet';
@@ -35,11 +35,7 @@
       <div class="ios-sheet-backdrop"></div>
       <div class="ios-sheet">
         <p class="ios-sheet-title">ホーム画面に追加する</p>
-        <ol>
-          <li>画面下の <strong>共有ボタン</strong>(□に↑)をタップ</li>
-          <li>メニューから <strong>「ホーム画面に追加」</strong> を選択</li>
-          <li>右上の <strong>「追加」</strong> をタップして完了</li>
-        </ol>
+        ${bodyHtml}
         <button type="button" class="ios-sheet-close">閉じる</button>
       </div>
     `;
@@ -47,6 +43,27 @@
     const close = () => overlay.remove();
     overlay.querySelector('.ios-sheet-backdrop').addEventListener('click', close);
     overlay.querySelector('.ios-sheet-close').addEventListener('click', close);
+  }
+
+  function showIOSSheet() {
+    showSheet(`
+      <ol>
+        <li>画面下の <strong>共有ボタン</strong>(□に↑)をタップ</li>
+        <li>メニューから <strong>「ホーム画面に追加」</strong> を選択</li>
+        <li>右上の <strong>「追加」</strong> をタップして完了</li>
+      </ol>
+    `);
+  }
+
+  function showGenericSheet() {
+    showSheet(`
+      <ol>
+        <li>ブラウザ右上の <strong>メニュー(⋮)</strong> を開く</li>
+        <li><strong>「アプリをインストール」</strong> または <strong>「ホーム画面に追加」</strong> を選択</li>
+        <li>表示に従って追加すれば完了です</li>
+      </ol>
+      <p class="ios-sheet-note">メニューにその項目が見当たらない場合は、数秒待ってからボタンをもう一度押してみてください。</p>
+    `);
   }
 
   window.addEventListener('beforeinstallprompt', (e) => {
@@ -78,10 +95,12 @@
     }
     if (isIOS) {
       showIOSSheet();
-      return;
+    } else {
+      // beforeinstallprompt hasn't fired yet (timing) or this browser lacks
+      // the JS install API — guide the user to the browser's own menu instead
+      // of silently leaving the detail page.
+      showGenericSheet();
     }
-    // Browser without install support (e.g. desktop Safari/Firefox): open the app directly.
-    window.location.href = 'app/';
   });
 
   if (isStandalone()) setButtonsState('installed');
