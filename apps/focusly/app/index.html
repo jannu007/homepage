@@ -8,12 +8,12 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✦</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Cormorant+Garamond:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#141414; --bg-soft:#1d1d1d; --ink:#f2efe8; --ink-soft:#9a978f; --line:#333333;
-  --accent:#ff4b2b; --accent-soft:#3a241f;
-  --serif:'Cormorant Garamond', serif;
+  --bg:#1c1a17; --bg-soft:#262320; --ink:#f2ece0; --ink-soft:#a89f8e; --line:#3a352e;
+  --accent:#bf3b2c; --accent-soft:#3a2018;
+  --serif:'Shippori Mincho', serif;
   --sans:'Zen Kaku Gothic New','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
   --ease:cubic-bezier(.16,1,.3,1);
 }
@@ -25,15 +25,20 @@ button{ font-family:inherit; cursor:pointer; }
 .topbar{ display:flex; align-items:center; justify-content:space-between; padding:1.4rem 6vw; border-bottom:1px solid var(--line); }
 .back{ font-size:.78rem; color:var(--ink-soft); letter-spacing:.02em; }
 .back:hover{ color:var(--accent); }
-.applogo{ font-family:var(--serif); font-style:italic; font-weight:600; font-size:1.3rem; display:flex; align-items:center; gap:.5rem; }
-.applogo .dot{ width:10px; height:10px; border-radius:50%; background:var(--accent); }
+.applogo{ font-family:var(--serif); font-weight:600; font-size:1.3rem; display:flex; align-items:center; gap:.6rem; }
+.hanko{
+  display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
+  width:1.6rem; height:1.6rem; border-radius:5px; background:var(--accent); color:var(--bg);
+  font-family:var(--serif); font-weight:700; font-size:.9rem; line-height:1; transform:rotate(-4deg);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.2), 0 1px 2px rgba(0,0,0,.35);
+}
 
 main{ max-width:520px; margin:0 auto; padding:3.5rem 6vw 5rem; display:flex; flex-direction:column; align-items:center; }
 
-.modes{ display:flex; gap:.5rem; background:var(--bg-soft); border-radius:100px; padding:.3rem; margin-bottom:2.6rem; }
+.modes{ display:flex; gap:.5rem; background:var(--bg-soft); border-radius:8px; padding:.3rem; margin-bottom:2.6rem; }
 .mode-btn{
   border:none; background:none; color:var(--ink-soft); font-size:.78rem; letter-spacing:.02em;
-  padding:.6rem 1.1rem; border-radius:100px; transition:background .3s, color .3s;
+  padding:.6rem 1.1rem; border-radius:8px; transition:background .3s, color .3s;
 }
 .mode-btn.active{ background:var(--accent); color:#fff; }
 
@@ -49,7 +54,7 @@ main{ max-width:520px; margin:0 auto; padding:3.5rem 6vw 5rem; display:flex; fle
 
 .controls{ display:flex; gap:1rem; margin-bottom:2.4rem; }
 .ctrl-btn{
-  border:1px solid var(--line); background:var(--bg-soft); color:var(--ink); border-radius:100px;
+  border:1px solid var(--line); background:var(--bg-soft); color:var(--ink); border-radius:8px;
   padding:.9rem 2.2rem; font-size:.85rem; letter-spacing:.04em; font-weight:500; transition:background .25s, border-color .25s;
 }
 .ctrl-btn.primary{ background:var(--accent); border-color:var(--accent); color:#fff; }
@@ -58,7 +63,7 @@ main{ max-width:520px; margin:0 auto; padding:3.5rem 6vw 5rem; display:flex; fle
 .extras{ display:flex; gap:1.2rem; align-items:center; }
 .ambient-toggle{
   display:flex; align-items:center; gap:.55rem; border:1px solid var(--line); background:var(--bg-soft);
-  border-radius:100px; padding:.55rem 1.1rem; font-size:.76rem; color:var(--ink-soft); transition:border-color .25s, color .25s;
+  border-radius:8px; padding:.55rem 1.1rem; font-size:.76rem; color:var(--ink-soft); transition:border-color .25s, color .25s;
 }
 .ambient-toggle.on{ border-color:var(--accent); color:var(--ink); }
 .ambient-toggle .indicator{ width:7px; height:7px; border-radius:50%; background:var(--line); transition:background .25s; }
@@ -74,7 +79,7 @@ main{ max-width:520px; margin:0 auto; padding:3.5rem 6vw 5rem; display:flex; fle
 
 <header class="topbar">
   <a href="../index.html" class="back">← Focusly について</a>
-  <div class="applogo"><span class="dot"></span>Focusly</div>
+  <div class="applogo"><span class="hanko">集</span>Focusly</div>
 </header>
 
 <main>
