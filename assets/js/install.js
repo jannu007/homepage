@@ -109,7 +109,7 @@
       const originalLabel = span ? span.textContent : btn.textContent;
       btn.disabled = true;
       setLabel(btn, '準備中…');
-      await waitForPrompt(8000);
+      await waitForPrompt(3000);
       btn.disabled = false;
       setLabel(btn, originalLabel);
     }
