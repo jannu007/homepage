@@ -1,4 +1,4 @@
-const CACHE = 'focusly-v7';
+const CACHE = 'focusly-v8';
 const ASSETS = ['./', './app/', './manifest.json'];
 
 self.addEventListener('install', (e) => {

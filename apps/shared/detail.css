@@ -27,12 +27,12 @@ body{
   color:var(--ink); font-family:var(--sans); line-height:1.9; -webkit-font-smoothing:antialiased; position:relative;
 }
 body::before{
-  content:''; position:fixed; inset:0; z-index:9996; pointer-events:none;
+  content:''; position:fixed; inset:0; z-index:-2; pointer-events:none;
   background-image:var(--relief);
   opacity:.42; mix-blend-mode:overlay;
 }
 body::after{
-  content:''; position:fixed; inset:0; z-index:9997; pointer-events:none;
+  content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
   background-image:var(--grain); opacity:.16; mix-blend-mode:overlay;
 }
 a{ color:inherit; text-decoration:none; }
