@@ -1,4 +1,4 @@
-const CACHE = 'nocta-v1';
+const CACHE = 'nocta-v2';
 const ASSETS = ['./', './app/', './manifest.json'];
 
 self.addEventListener('install', (e) => {
