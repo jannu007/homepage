@@ -11,65 +11,64 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#17140f; --bg-soft:#221d16; --ink:#ece5d6; --ink-soft:#948a76; --line:#332c22;
-  --accent:#d1543c; --accent-soft:#3a2018;
+  --bg:#211d17; --bg-soft:#2a251d; --ink:#e4dccb; --ink-soft:#948a76; --line:#3d372c;
+  --accent:#c17049; --accent-soft:#3a2c1f;
   --serif:'Shippori Mincho', serif;
   --sans:'Zen Kaku Gothic New','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
 }
 *,*::before,*::after{ box-sizing:border-box; }
 body{
-  margin:0; background:radial-gradient(circle at 20% -10%, #2a2018, var(--bg) 55%); color:var(--ink);
-  font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased; min-height:100vh;
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); line-height:1.8; -webkit-font-smoothing:antialiased; min-height:100vh;
 }
 a{ color:inherit; text-decoration:none; }
 button{ font-family:inherit; cursor:pointer; }
 
-.topbar{ display:flex; align-items:center; justify-content:space-between; padding:1.4rem 6vw; border-bottom:1px solid var(--line); }
+.topbar{ display:flex; align-items:center; justify-content:space-between; padding:1.6rem 8vw; border-bottom:1px solid var(--line); }
 .back{ font-size:.78rem; color:var(--ink-soft); }
-.back:hover{ color:var(--accent); }
-.applogo{ font-family:var(--serif); font-weight:600; font-size:1.3rem; display:flex; align-items:center; gap:.6rem; }
+.back:hover{ color:var(--ink); }
+.applogo{ font-family:var(--serif); font-weight:400; font-size:1.1rem; display:flex; align-items:center; gap:.7rem; letter-spacing:.05em; }
 .hanko{
   display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
-  width:1.6rem; height:1.6rem; border-radius:5px; background:var(--accent); color:var(--bg);
-  font-family:var(--serif); font-weight:700; font-size:.9rem; line-height:1; transform:rotate(-4deg);
-  box-shadow:inset 0 0 0 1px rgba(0,0,0,.2), 0 1px 2px rgba(0,0,0,.35);
+  width:1.5rem; height:1.5rem; border-radius:2px; background:var(--accent); color:var(--bg);
+  font-family:var(--serif); font-weight:500; font-size:.82rem; line-height:1; transform:rotate(-2deg); opacity:.92;
 }
 
-main{ max-width:640px; margin:0 auto; padding:3rem 6vw 5rem; }
-.hero{ margin-bottom:2.4rem; }
-.hero h1{ font-family:var(--serif); font-weight:600; font-size:clamp(1.9rem,6vw,2.6rem); margin:0 0 .5rem; }
-.hero p{ color:var(--ink-soft); margin:0; font-size:.9rem; }
+main{ max-width:620px; margin:0 auto; padding:4rem 8vw 5rem; }
+.hero{ margin-bottom:2.8rem; }
+.hero h1{ font-family:var(--serif); font-weight:400; font-size:clamp(1.7rem,5vw,2.2rem); margin:0 0 .8rem; letter-spacing:.02em; }
+.hero p{ color:var(--ink-soft); margin:0; font-size:.88rem; line-height:1.9; }
 
-.sound-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:2.6rem; }
+.sound-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-bottom:3rem; background:var(--line); }
 .sound-card{
-  background:var(--bg-soft); border:1px solid var(--line); border-radius:9px; padding:1.3rem;
-  display:flex; flex-direction:column; gap:.9rem; transition:border-color .3s;
+  background:var(--bg-soft); padding:1.4rem;
+  display:flex; flex-direction:column; gap:1rem; transition:background .3s;
 }
-.sound-card.active{ border-color:var(--accent); }
+.sound-card.active{ background:#332b20; }
 .sound-top{ display:flex; align-items:center; justify-content:space-between; }
-.sound-icon{ font-size:1.3rem; }
-.sound-name{ font-size:.86rem; font-weight:700; }
+.sound-icon{ font-size:1.2rem; opacity:.85; }
+.sound-name{ font-size:.84rem; font-weight:400; }
 .sound-toggle{
-  width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:transparent; color:var(--ink-soft);
-  display:flex; align-items:center; justify-content:center; font-size:.85rem; transition:background .25s, border-color .25s, color .25s;
+  width:32px; height:32px; border-radius:50%; border:1px solid var(--line); background:transparent; color:var(--ink-soft);
+  display:flex; align-items:center; justify-content:center; font-size:.8rem; transition:border-color .3s, color .3s;
 }
-.sound-card.active .sound-toggle{ background:var(--accent); border-color:var(--accent); color:#fff; }
+.sound-card.active .sound-toggle{ border-color:var(--accent); color:var(--accent); }
 .sound-vol{ width:100%; accent-color:var(--accent); }
 
-.timer-section{ background:var(--bg-soft); border:1px solid var(--line); border-radius:9px; padding:1.4rem 1.5rem; }
-.timer-title{ font-size:.78rem; letter-spacing:.06em; color:var(--ink-soft); text-transform:uppercase; margin:0 0 1rem; }
-.timer-options{ display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:1rem; }
+.timer-section{ background:var(--bg-soft); border:1px solid var(--line); padding:1.5rem 1.6rem; }
+.timer-title{ font-size:.76rem; letter-spacing:.08em; color:var(--ink-soft); margin:0 0 1.1rem; }
+.timer-options{ display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.1rem; }
 .timer-btn{
-  border:1px solid var(--line); background:transparent; color:var(--ink-soft); border-radius:8px;
-  padding:.5rem 1.1rem; font-size:.78rem; transition:background .2s, border-color .2s, color .2s;
+  border:1px solid var(--line); background:transparent; color:var(--ink-soft);
+  padding:.55rem 1.1rem; font-size:.76rem; transition:background .3s, color .3s, border-color .3s;
 }
-.timer-btn.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
-.timer-status{ font-size:.82rem; color:var(--ink-soft); font-variant-numeric:tabular-nums; }
-.timer-status strong{ color:var(--ink); font-family:var(--serif); font-size:1.1rem; }
+.timer-btn.active{ background:var(--accent); color:var(--bg); }
+.timer-status{ font-size:.8rem; color:var(--ink-soft); font-variant-numeric:tabular-nums; }
+.timer-status strong{ color:var(--ink); font-family:var(--serif); font-weight:400; font-size:1.05rem; }
 
 .stop-all{
-  display:block; margin:2rem auto 0; border:none; background:none; color:var(--ink-soft); font-size:.78rem;
-  text-decoration:underline; text-underline-offset:.2em;
+  display:block; margin:2.4rem auto 0; border:none; background:none; color:var(--ink-soft); font-size:.76rem;
+  text-decoration:underline; text-underline-offset:.25em;
 }
 .stop-all:hover{ color:var(--accent); }
 </style>
