@@ -14,6 +14,10 @@
   const isStandalone = () =>
     window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  // LINE/Instagram/X/Facebook's in-app webviews can't install PWAs at all —
+  // no beforeinstallprompt support and often no "add to home screen" menu
+  // item — so detect them and point the user at their real browser instead.
+  const isInAppBrowser = /Line\/|FBAN|FBAV|Instagram|Twitter|MicroMessenger/i.test(navigator.userAgent);
 
   let deferredPrompt = null;
   let promptWaiters = [];
@@ -87,6 +91,17 @@
     `);
   }
 
+  function showInAppBrowserSheet() {
+    showSheet(`
+      <ol>
+        <li>右上の <strong>「…」または「⋮」メニュー</strong>を開く</li>
+        <li><strong>「他のブラウザで開く」「ブラウザで開く」「Chromeで開く」</strong>などを選択</li>
+        <li>開き直した後、もう一度このページで「インストール」を押してください</li>
+      </ol>
+      <p class="ios-sheet-note">LINEやInstagramなどアプリ内のブラウザでは、仕組み上インストールができません。Chromeなど通常のブラウザで開く必要があります。</p>
+    `);
+  }
+
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
@@ -107,6 +122,11 @@
 
     if (isStandalone()) {
       window.location.href = 'app/';
+      return;
+    }
+
+    if (isInAppBrowser) {
+      showInAppBrowserSheet();
       return;
     }
 
