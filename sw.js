@@ -1,4 +1,4 @@
-const CACHE = 'youkoku-studio-v3';
+const CACHE = 'youkoku-studio-v4';
 const ASSETS = ['./', './index.html', './assets/css/style.css', './assets/js/main.js', './manifest.json'];
 
 self.addEventListener('install', (e) => {
@@ -20,7 +20,7 @@ self.addEventListener('fetch', (e) => {
   // this keeps the cache list accurate).
   if (new URL(e.request.url).pathname.includes('/apps/')) return;
   e.respondWith(
-    fetch(e.request)
+    fetch(e.request, { cache: 'no-store' })
       .then((res) => {
         const clone = res.clone();
         caches.open(CACHE).then((c) => c.put(e.request, clone));
