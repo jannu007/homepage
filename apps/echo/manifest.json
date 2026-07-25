@@ -1,8 +1,8 @@
 {
-  "name": "PRISM AI — 芸術系AI創作アプリ",
-  "short_name": "PRISM AI",
-  "description": "画像・映像・音楽の制作に特化したAI創作アプリ Lumen / Flux / Echo を無料で提供する PRISM AI の公式サイト",
-  "start_url": "./",
+  "name": "Echo — AI音楽編集",
+  "short_name": "Echo",
+  "description": "AIマスタリングと波形編集で音源を仕上げる音楽編集アプリ",
+  "start_url": "app/",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

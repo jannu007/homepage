@@ -4,7 +4,7 @@
   /* ---------- loader ---------- */
   const loader = document.getElementById('loader');
   window.addEventListener('load', () => {
-    setTimeout(() => loader.classList.add('done'), 500);
+    setTimeout(() => loader.classList.add('done'), 450);
   });
 
   /* ---------- header scroll state ---------- */
@@ -49,49 +49,13 @@
   }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
   revealEls.forEach(el => io.observe(el));
 
-  /* ---------- stat counters ---------- */
-  const stats = document.querySelectorAll('.stat-num');
-  const animateCount = (el) => {
-    const target = parseFloat(el.dataset.count);
-    const isFloat = target % 1 !== 0;
-    const duration = 1400;
-    const start = performance.now();
-    const step = (now) => {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const value = target * eased;
-      el.textContent = isFloat ? value.toFixed(1) : Math.round(value);
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-  const statIo = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateCount(entry.target);
-        statIo.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.5 });
-  stats.forEach(el => statIo.observe(el));
-
-  /* ---------- custom cursor ---------- */
-  const cursorDot = document.getElementById('cursorDot');
-  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    window.addEventListener('mousemove', (e) => {
-      cursorDot.style.left = e.clientX + 'px';
-      cursorDot.style.top = e.clientY + 'px';
-    });
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => cursorDot.classList.add('grow'));
-      el.addEventListener('mouseleave', () => cursorDot.classList.remove('grow'));
+  /* ---------- to top ---------- */
+  const toTop = document.getElementById('toTop');
+  if (toTop) {
+    toTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
-
-  /* ---------- to top ---------- */
-  document.getElementById('toTop').addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
 
   /* ---------- active nav highlight ---------- */
   const navLinks = document.querySelectorAll('.nav a');
@@ -108,5 +72,68 @@
     });
   }, { threshold: 0.4 });
   sections.forEach(s => navIo.observe(s));
+
+  /* ---------- hero particle field ----------
+     A quiet drift of colored points evoking generative / AI-made art,
+     echoing the three product accent colors (violet, magenta, cyan). */
+  const canvas = document.getElementById('heroCanvas');
+  if (canvas && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const ctx = canvas.getContext('2d');
+    const colors = ['139,92,246', '236,72,153', '34,211,238', '59,130,246', '45,212,191'];
+    let particles = [];
+    let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let running = true;
+    let rafId = null;
+
+    function resize() {
+      w = canvas.clientWidth;
+      h = canvas.clientHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const count = Math.round((w * h) / 16000);
+      particles = Array.from({ length: Math.min(count, 140) }, () => spawn());
+    }
+
+    function spawn() {
+      return {
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 1.6 + 0.6,
+        vx: (Math.random() - 0.5) * 0.18,
+        vy: (Math.random() - 0.5) * 0.18,
+        c: colors[Math.floor(Math.random() * colors.length)],
+        a: Math.random() * 0.5 + 0.25,
+      };
+    }
+
+    function tick() {
+      if (!running) return;
+      ctx.clearRect(0, 0, w, h);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < -10) p.x = w + 10;
+        if (p.x > w + 10) p.x = -10;
+        if (p.y < -10) p.y = h + 10;
+        if (p.y > h + 10) p.y = -10;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.c},${p.a})`;
+        ctx.fill();
+      });
+      rafId = requestAnimationFrame(tick);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      running = !document.hidden;
+      if (running && !rafId) tick();
+      if (!running && rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    });
+
+    window.addEventListener('resize', resize, { passive: true });
+    resize();
+    tick();
+  }
 
 })();

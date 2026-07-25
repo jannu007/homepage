@@ -1,5 +1,5 @@
-const CACHE = 'prism-ai-v1';
-const ASSETS = ['./', './index.html', './assets/css/style.css', './assets/js/main.js', './manifest.json'];
+const CACHE = 'echo-v1';
+const ASSETS = ['./', './app/', './manifest.json'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
@@ -15,10 +15,6 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
-  // Only manage the homepage shell itself; let each app's own service worker
-  // handle requests under /apps/<name>/ (more specific scopes win regardless,
-  // this keeps the cache list accurate).
-  if (new URL(e.request.url).pathname.includes('/apps/')) return;
   e.respondWith(
     fetch(e.request, { cache: 'no-store' })
       .then((res) => {
