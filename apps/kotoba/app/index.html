@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kotoba — AI日記 | YOUKOKU STUDIO</title>
+<meta name="description" content="端末内で動くAIが、似た気持ちの過去の日をそっと思い出させてくれる日記アプリ">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>”</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eae3d3; --ink:#18140f; --ink-soft:#8a8171; --line:#d6cdb8;
+  --accent:#46586e; --accent-soft:#dbe1e6; --paper:#f3ede0;
+  --serif:'Shippori Mincho', serif;
+  --sans:'Zen Kaku Gothic New','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;
+}
+*,*::before,*::after{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.8; -webkit-font-smoothing:antialiased; }
+a{ color:inherit; text-decoration:none; }
+button{ font-family:inherit; cursor:pointer; }
+textarea{ font-family:inherit; }
+
+.topbar{ display:flex; align-items:center; justify-content:space-between; padding:1.6rem 8vw; border-bottom:1px solid var(--line); }
+.back{ font-size:.78rem; color:var(--ink-soft); }
+.back:hover{ color:var(--ink); }
+.applogo{ font-family:var(--serif); font-weight:400; font-size:1.1rem; display:flex; align-items:center; gap:.7rem; letter-spacing:.05em; }
+.hanko{
+  display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
+  width:1.5rem; height:1.5rem; border-radius:42% 58% 61% 39% / 55% 42% 58% 45%;
+  background:var(--accent); color:var(--paper);
+  font-family:var(--serif); font-weight:500; font-size:.82rem; line-height:1; transform:rotate(-3deg); opacity:.94;
+}
+
+main{ max-width:620px; margin:0 auto; padding:3.4rem 8vw 5rem; }
+
+.hero{ margin-bottom:1.6rem; }
+.hero h1{ font-family:var(--serif); font-weight:400; font-size:clamp(1.5rem,4.4vw,2rem); margin:0 0 .7rem; letter-spacing:.02em; }
+.hero p{ color:var(--ink-soft); margin:0; font-size:.88rem; line-height:1.9; }
+
+.ai-status{ display:flex; align-items:center; gap:.55rem; margin-bottom:2rem; font-size:.72rem; color:var(--ink-soft); }
+.ai-dot{ width:7px; height:7px; border-radius:50%; background:#b8ac93; flex-shrink:0; transition:background .3s; }
+.ai-dot[data-state="loading"]{ background:#c99a4a; animation:pulse 1.2s ease-in-out infinite; }
+.ai-dot[data-state="ready"]{ background:#6b8a52; animation:none; }
+.ai-dot[data-state="error"]{ background:#b0503a; animation:none; }
+@keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.35; } }
+
+.entry-form{ margin-bottom:2.6rem; }
+.mood-row{ display:flex; gap:.5rem; margin-bottom:.9rem; }
+.mood-btn{
+  width:2.6rem; height:2.6rem; border:1px solid var(--line); background:var(--paper);
+  font-size:1.15rem; display:flex; align-items:center; justify-content:center;
+  transition:border-color .2s, background .2s;
+}
+.mood-btn:hover{ border-color:var(--ink-soft); }
+.mood-btn.active{ border-color:var(--accent); background:var(--accent-soft); }
+.entry-form textarea{
+  width:100%; border:1px solid var(--line); background:var(--paper); outline:none;
+  padding:1rem; font-size:.92rem; line-height:1.8; resize:vertical; min-height:5.4rem; margin-bottom:.9rem;
+}
+.entry-form textarea:focus{ border-color:var(--ink); }
+.save-btn{
+  border:1px solid var(--ink); background:var(--ink); color:var(--bg); padding:.75rem 1.6rem;
+  font-size:.82rem; letter-spacing:.05em; transition:opacity .2s;
+}
+.save-btn:hover{ opacity:.8; }
+.save-btn:disabled{ opacity:.4; cursor:default; }
+
+.echoes{ margin-bottom:2.8rem; padding:1.4rem 1.4rem 1.6rem; background:var(--accent-soft); border:1px solid var(--line); }
+.echoes h2{ font-family:var(--serif); font-weight:400; font-size:1rem; margin:0 0 1rem; }
+.echo-list{ display:flex; flex-direction:column; gap:1px; background:var(--line); }
+.echo-card{ background:var(--paper); padding:.9rem 1.1rem; }
+.echo-top{ display:flex; align-items:center; gap:.6rem; margin-bottom:.4rem; font-size:.72rem; color:var(--ink-soft); }
+.echo-date{ flex:1; }
+.echo-text{ margin:0; font-size:.86rem; }
+
+section.timeline h2{ font-family:var(--serif); font-weight:400; font-size:1.05rem; margin:0 0 1.2rem; }
+.entry-list{ display:flex; flex-direction:column; gap:1px; background:var(--line); }
+.entry-card{ background:var(--paper); padding:1rem 1.1rem; display:flex; align-items:flex-start; gap:.9rem; }
+.entry-mood{ font-size:1.1rem; flex-shrink:0; width:1.6rem; text-align:center; }
+.entry-body{ flex:1; min-width:0; }
+.entry-date{ font-size:.7rem; color:var(--ink-soft); margin-bottom:.3rem; letter-spacing:.03em; }
+.entry-text{ font-size:.88rem; white-space:pre-wrap; word-break:break-word; }
+.entry-del{
+  border:none; background:none; color:var(--ink-soft); font-size:.9rem; padding:.2rem .3rem; flex-shrink:0;
+  opacity:.4; transition:opacity .2s, color .2s;
+}
+.entry-del:hover{ opacity:1; color:#b0503a; }
+
+.empty{ text-align:center; padding:3.4rem 1rem; color:var(--ink-soft); font-size:.86rem; border:1px solid var(--line); }
+.empty span{ display:block; font-family:var(--serif); font-weight:400; font-size:1.1rem; color:var(--ink); margin-bottom:.6rem; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="back">← Kotoba について</a>
+  <div class="applogo"><span class="hanko">言</span>Kotoba</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>今日は、どんな一日でしたか。</h1>
+    <p>短い一言と気分を記録すると、AIが似た気持ちの過去の日を思い出させてくれます。</p>
+  </div>
+
+  <div class="ai-status">
+    <span class="ai-dot" id="aiDot"></span>
+    <span id="aiStatusText">AIを準備中…</span>
+  </div>
+
+  <form class="entry-form" id="entryForm">
+    <div class="mood-row" id="moodRow">
+      <button type="button" class="mood-btn" data-mood="😊" aria-label="嬉しい">😊</button>
+      <button type="button" class="mood-btn" data-mood="🙂" aria-label="穏やか">🙂</button>
+      <button type="button" class="mood-btn" data-mood="😐" aria-label="普通">😐</button>
+      <button type="button" class="mood-btn" data-mood="😢" aria-label="悲しい">😢</button>
+      <button type="button" class="mood-btn" data-mood="😠" aria-label="怒り">😠</button>
+      <button type="button" class="mood-btn" data-mood="😴" aria-label="疲れた">😴</button>
+    </div>
+    <textarea id="entryText" placeholder="今日あったこと、感じたことを一言で…" maxlength="400" required></textarea>
+    <button type="submit" class="save-btn">今日の記録を保存</button>
+  </form>
+
+  <section class="echoes" id="echoes" style="display:none;">
+    <h2>似た日を思い出しています</h2>
+    <div class="echo-list" id="echoList"></div>
+  </section>
+
+  <section class="timeline">
+    <h2>これまでの記録</h2>
+    <div class="entry-list" id="entryList"></div>
+    <div class="empty" id="emptyState" style="display:none;">
+      <span>まだ記録がありません</span>
+      今日の一言を書いて、最初のページを綴ってみましょう。
+    </div>
+  </section>
+</main>
+
+<script type="module">
+'use strict';
+const DB_NAME = 'kotoba_db_v1';
+const STORE = 'entries';
+const MODEL_ID = 'Xenova/multilingual-e5-small';
+const TRANSFORMERS_CDN = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.2.4';
+
+let entries = [];
+let selectedMood = null;
+let extractorPromise = null;
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = () => {
+      if (!req.result.objectStoreNames.contains(STORE)) {
+        req.result.createObjectStore(STORE, { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+const dbPromise = openDB();
+
+async function dbAll() {
+  const db = await dbPromise;
+  return new Promise((resolve, reject) => {
+    const req = db.transaction(STORE, 'readonly').objectStore(STORE).getAll();
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+async function dbPut(entry) {
+  const db = await dbPromise;
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).put(entry);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+async function dbDelete(id) {
+  const db = await dbPromise;
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).delete(id);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+function setStatus(state, text) {
+  document.getElementById('aiDot').dataset.state = state;
+  document.getElementById('aiStatusText').textContent = text;
+}
+
+function getExtractor() {
+  if (!extractorPromise) {
+    extractorPromise = (async () => {
+      setStatus('loading', 'AIを準備中…(初回のみダウンロードが発生します)');
+      const { pipeline } = await import(TRANSFORMERS_CDN);
+      const extractor = await pipeline('feature-extraction', MODEL_ID, { dtype: 'q8' });
+      setStatus('ready', 'AI準備完了・似た日の検索が使えます(すべて端末内で計算)');
+      return extractor;
+    })().catch((err) => {
+      console.error(err);
+      setStatus('error', 'AIを読み込めませんでした(通常の日記としてそのまま使えます)');
+      extractorPromise = null;
+      throw err;
+    });
+  }
+  return extractorPromise;
+}
+
+async function embed(text) {
+  const extractor = await getExtractor();
+  const output = await extractor('query: ' + text, { pooling: 'mean', normalize: true });
+  return Array.from(output.data);
+}
+
+function cosineSim(a, b) {
+  let dot = 0;
+  for (let i = 0; i < a.length; i++) dot += a[i] * b[i];
+  return dot;
+}
+
+const toDateStr = (d) => {
+  const yy = d.getFullYear(), mm = String(d.getMonth() + 1).padStart(2, '0'), dd = String(d.getDate()).padStart(2, '0');
+  return `${yy}-${mm}-${dd}`;
+};
+const dateLabel = (dateStr) => {
+  const d = new Date(dateStr + 'T00:00:00');
+  return `${d.getMonth() + 1}月${d.getDate()}日(${['日', '月', '火', '水', '木', '金', '土'][d.getDay()]})`;
+};
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+document.getElementById('moodRow').addEventListener('click', (e) => {
+  const btn = e.target.closest('.mood-btn');
+  if (!btn) return;
+  selectedMood = btn.dataset.mood;
+  document.querySelectorAll('.mood-btn').forEach((b) => b.classList.toggle('active', b === btn));
+});
+
+function renderEntries() {
+  const list = document.getElementById('entryList');
+  const empty = document.getElementById('emptyState');
+  const sorted = [...entries].sort((a, b) => b.createdAt - a.createdAt);
+  empty.style.display = sorted.length ? 'none' : 'block';
+  list.innerHTML = sorted.map((en) => `
+    <div class="entry-card">
+      <div class="entry-mood">${en.mood || '・'}</div>
+      <div class="entry-body">
+        <div class="entry-date">${dateLabel(en.date)}</div>
+        <div class="entry-text">${escapeHtml(en.text)}</div>
+      </div>
+      <button class="entry-del" data-del="${en.id}" aria-label="削除">✕</button>
+    </div>
+  `).join('');
+}
+
+function renderEchoes(matches) {
+  const section = document.getElementById('echoes');
+  const list = document.getElementById('echoList');
+  if (!matches.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  list.innerHTML = matches.map(({ entry }) => `
+    <div class="echo-card">
+      <div class="echo-top">
+        <span class="entry-mood">${entry.mood || '・'}</span>
+        <span class="echo-date">${dateLabel(entry.date)}</span>
+      </div>
+      <p class="echo-text">${escapeHtml(entry.text)}</p>
+    </div>
+  `).join('');
+}
+
+function findEchoes(newEntry) {
+  if (!newEntry.embedding) return [];
+  const scored = entries
+    .filter((en) => en.id !== newEntry.id && en.embedding)
+    .map((en) => ({ entry: en, score: cosineSim(newEntry.embedding, en.embedding) }));
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, 3);
+}
+
+document.getElementById('entryForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const textarea = document.getElementById('entryText');
+  const text = textarea.value.trim();
+  if (!text) return;
+  const saveBtn = e.target.querySelector('.save-btn');
+  saveBtn.disabled = true;
+
+  const now = new Date();
+  const entry = {
+    id: now.getTime().toString(36),
+    date: toDateStr(now),
+    mood: selectedMood,
+    text,
+    embedding: null,
+    createdAt: now.getTime(),
+  };
+
+  try {
+    entry.embedding = await embed(text);
+  } catch (err) {
+    // Model unavailable — the entry is still saved as a plain diary note.
+  }
+
+  entries.push(entry);
+  await dbPut(entry);
+
+  textarea.value = '';
+  selectedMood = null;
+  document.querySelectorAll('.mood-btn').forEach((b) => b.classList.remove('active'));
+  saveBtn.disabled = false;
+
+  renderEntries();
+  renderEchoes(findEchoes(entry));
+});
+
+document.getElementById('entryList').addEventListener('click', async (e) => {
+  const delBtn = e.target.closest('[data-del]');
+  if (!delBtn) return;
+  entries = entries.filter((en) => en.id !== delBtn.dataset.del);
+  await dbDelete(delBtn.dataset.del);
+  renderEntries();
+});
+
+(async () => {
+  entries = await dbAll();
+  renderEntries();
+  getExtractor().catch(() => {});
+})();
+</script>
+</body>
+</html>
