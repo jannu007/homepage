@@ -93,48 +93,6 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  /* ---------- hero mountain parallax ---------- */
-  const mountainLayers = document.querySelectorAll('.mountain-layer');
-  if (mountainLayers.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const speeds = [0.06, 0.1, 0.16, 0.24];
-    let ticking = false;
-    const applyParallax = () => {
-      const y = window.scrollY;
-      mountainLayers.forEach((layer, i) => {
-        layer.style.transform = `translateY(${y * speeds[i % speeds.length]}px)`;
-      });
-      ticking = false;
-    };
-    document.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(applyParallax);
-        ticking = true;
-      }
-    }, { passive: true });
-    applyParallax();
-  }
-
-  /* ---------- drifting leaves in the hero ---------- */
-  const leafField = document.getElementById('leafField');
-  if (leafField && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const LEAF_COUNT = 9;
-    for (let i = 0; i < LEAF_COUNT; i++) {
-      const leaf = document.createElement('div');
-      leaf.className = 'leaf' + (i % 2 ? ' alt' : '');
-      const left = Math.random() * 100;
-      const duration = 14 + Math.random() * 12;
-      const delay = Math.random() * 20;
-      const drift = (Math.random() * 120 - 60).toFixed(0) + 'px';
-      const scale = (0.7 + Math.random() * 0.9).toFixed(2);
-      leaf.style.left = left + '%';
-      leaf.style.setProperty('--drift', drift);
-      leaf.style.animationDuration = duration + 's';
-      leaf.style.animationDelay = '-' + delay + 's';
-      leaf.style.transform = `scale(${scale})`;
-      leafField.appendChild(leaf);
-    }
-  }
-
   /* ---------- active nav highlight ---------- */
   const navLinks = document.querySelectorAll('.nav a');
   const sections = [...navLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
