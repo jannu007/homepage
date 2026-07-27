@@ -1,0 +1,15 @@
+{
+  "name": "Kotoba — AI日記",
+  "short_name": "Kotoba",
+  "description": "端末内で動くAIが、似た気持ちの過去の日を思い出させてくれる日記アプリ",
+  "start_url": "app/",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#eae3d3",
+  "theme_color": "#18140f",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
